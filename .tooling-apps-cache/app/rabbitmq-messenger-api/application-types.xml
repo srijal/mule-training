@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="eventcatalog" format="json">
+      <types:shape format="weave" example="examples/eventcatalog-1.json"><![CDATA[%dw 2.0
+type eventcatalog = {|
+  eventtypeid: Number {"typeId": "int"}, 
+  eventname: String, 
+  exchangename: String, 
+  routingkey: String, 
+  payload_encoding: String, 
+  vhost: String
+|} {"MetadataFormat": "json",
+"example": "{\"eventtypeid\":1,\"eventname\":\"New Enrollment for spring 2019\",\"exchangename\":\"exam\",\"routingkey\":\"2019-spring\",\"payload_encoding\":\"string\",\"vhost\":\"capella.vhost\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#bc738530-23e6-486f-a12f-47e555490cb2">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="eventcatalog"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
