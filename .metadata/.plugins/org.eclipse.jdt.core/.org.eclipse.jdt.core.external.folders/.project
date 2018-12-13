@@ -12,12 +12,12 @@
 		<link>
 			<name>.link1</name>
 			<type>2</type>
-			<location>C:/Users/santosh.rijal/Downloads/AnypointStudio/plugins/org.mule.tooling.server.4.1.4.ee_7.3.1.201811211713/mule/lib/boot/exec</location>
+			<location>C:/AnypointStudio/plugins/org.mule.tooling.server.4.1.4.ee_7.3.1.201811211713/mule/lib/mule/repository</location>
 		</link>
 		<link>
-			<name>.link2</name>
+			<name>.link4</name>
 			<type>2</type>
-			<location>C:/Users/santosh.rijal/Downloads/AnypointStudio/plugins/org.mule.tooling.server.4.1.4.ee_7.3.1.201811211713/mule/lib/mule/repository</location>
+			<location>C:/AnypointStudio/plugins/org.mule.tooling.server.4.1.4.ee_7.3.1.201811211713/mule/lib/boot/exec</location>
 		</link>
 	</linkedResources>
 </projectDescription>

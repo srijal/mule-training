@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;rabbitmq-messenger-api&apos; to &apos;rabbitmq-publisher&apos;&#x0D;&#x0A;- Original element: &apos;rabbitmq-messenger-api&apos;&#x0D;&#x0A;- Renamed element: &apos;rabbitmq-messenger-api&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;rabbitmq-messenger-api&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=rabbitmq-messenger-api" name="rabbitmq-publisher" references="true" stamp="1544712612996" version="1.0"/>
+</session>

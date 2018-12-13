@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd">
+	<configuration-properties doc:name="Configuration properties" doc:id="894cdf0a-7784-42f2-801c-426d95e1d2a2" file="config.yaml" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="11600562-5227-40f1-be61-b36a7006f375" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="4c07109b-5483-4cca-afd7-0bbec2ba6b37" >
+		<db:mssql-connection host="${mssql.host}" port="${mssql.port}" user="${mssql.user}" password="${mssql.password}" databaseName="${mssql.dbname}" />
+	</db:config>
+	<amqp:config name="AMQP_Config" doc:name="AMQP Config" doc:id="f3b732a8-5180-492a-8c36-88246274c341">
+		<amqp:connection host="${rabbitmq.host}" port="${rabbitmq.port}" virtualHost="${rabbitmq.vhost}" username="${rabbitmq.user}" password="${rabbitmq.password}" />
+	</amqp:config>
+	<http:request-config name="HTTP_Request_configuration_rabbitmq" doc:name="HTTP Request configuration" doc:id="fa8a9fca-32d8-4a9e-ba1c-d733b2d85415" basePath="/api" >
+		<http:request-connection host="${rabbitmq.host}" port="${rabbitmq.port}" >
+			<http:authentication >
+				<http:basic-authentication username="${rabbitmq.user}" password="${rabbitmq.password}" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+</mule>
+

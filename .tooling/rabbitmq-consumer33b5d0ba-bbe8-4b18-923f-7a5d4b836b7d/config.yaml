@@ -1,0 +1,21 @@
+http:
+  host: "localhost"
+  port: "8082" #using different port consuming
+  
+mssql:
+  host: "192.168.25.102"
+  port: "1433"
+  user: "sa"
+  password: "C0nc0rdUsa1"
+  dbname: "MulesoftEnablement" 
+  
+rabbitmq:
+  host: "localhost"
+  port-api: "15672"
+  port-amqp: "5672"
+  port-listener: "5673"
+  vhost: "capella.vhost"
+  user: "guest"
+  password: "guest"
+  encoding: "string"
+  basepath: "/api"

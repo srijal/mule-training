@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+	<flow name="rabbitmq-publisher-using-api" doc:id="c949c240-a41c-4589-9722-289747f57ec9">
+		<http:listener doc:name="Listener" doc:id="efb0977d-d90d-43a5-8e24-d5fca7f4f3ed" path="/events/send-api" outputMimeType="application/json" allowedMethods="POST" config-ref="HTTP_Listener_config"/>
+		<set-variable value="#[payload]" doc:name="Save Payload" doc:id="4f2b937f-f8fb-43df-9c4b-88a84b8f22b3" variableName="msgPayloadAPI" />
+		<db:select doc:name="GET event details from Database" doc:id="c7845535-3644-4aa7-93c8-2b82042d23b4" config-ref="Database_Config">
+			<db:sql>SELECT * FROM EventCatalog where EventTypeID= :ID</db:sql>
+			<db:input-parameters><![CDATA[#[output application/java
+ ---
+ {
+     'ID' : vars.msgPayloadAPI.eventtypeid
+ }]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="GET first item from an Array" doc:id="bc738530-23e6-486f-a12f-47e555490cb2">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="eventcatalogAPI" ><![CDATA[%dw 2.0
+output application/json
+---
+payload[0]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Create payload for RabbitMQ broker" doc:id="084d51ba-171b-4e98-a48e-1eb211b228f3" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="payloadtorabbit" ><![CDATA[%dw 2.0
+output application/json
+---
+{	
+	"properties":{},
+	"routing_key":vars.eventcatalogAPI.RoutingKey as String,
+	"payload":vars.msgPayloadAPI.message,
+	"payload_encoding":"string"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="POST" doc:name="Send Payload using RabbitMQ API" doc:id="1f4e8435-e9f2-4d5c-a489-c6b3c5444950" config-ref="HTTP_Request_configuration" path='#[output application/java
+---
+"/exchanges/" ++ vars.eventcatalogAPI.vhost ++ "/" ++ vars.eventcatalogAPI.ExchangeName ++ "/publish"]'>
+			<http:body ><![CDATA[#[vars.payloadtorabbit]]]></http:body>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="f023b8a1-3dd5-45ed-bacd-49ec204f0979" />
+	</flow>
+	<flow name="rabbitmq-publisher-using-AMQP-connector" doc:id="0e7ff961-7062-4041-983f-2973c3e54c5b" initialState="stopped">
+		<http:listener doc:name="Listener" doc:id="00c598f7-3bd6-4bbe-ba58-5ca355dae10f" config-ref="HTTP_Listener_config" path="/events/send-test" outputMimeType="application/json" allowedMethods="POST" >
+			<non-repeatable-stream />
+		</http:listener>
+		<set-variable value="#[payload]" doc:name="Save Payload" doc:id="460d83db-1a79-4257-b4a0-fe5adea0a2ef" variableName="msgPayloadAPI" />
+		<db:select doc:name="GET event details from Database" doc:id="284d3b4f-ebf4-4168-b1fd-ede1b755b2d5" config-ref="Database_Config">
+			<db:sql>SELECT * FROM EventCatalog where EventTypeID= :ID</db:sql>
+			<db:input-parameters><![CDATA[#[output application/java
+ ---
+ {
+     'ID' : vars.msgPayloadAPI.eventtypeid
+ }]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="GET first item from an Array" doc:id="f1be683c-7a84-47f0-8127-b29ce5bead85">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="eventcatalogAMQP" ><![CDATA[%dw 2.0
+output application/json
+---
+payload[0]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<amqp:publish doc:name="Publish" doc:id="88d3e247-31df-4cd2-bc44-152890f4c4d6" config-ref="AMQP_Config_API" exchangeName="#[eventcatalogAPI]" sendCorrelationId="AUTO" deliveryMode="PERSISTENT">
+			<amqp:routing-keys >
+				<amqp:routing-key value="#[vars.eventcatalog.RoutingKey]" />
+			</amqp:routing-keys>
+			<amqp:message >
+				<amqp:body ><![CDATA[#[output application/json
+---
+
+{"test":"Geda Jasto Zindagi naya"}]]]></amqp:body>
+				<amqp:properties />
+			</amqp:message>
+		</amqp:publish>
+		<logger level="INFO" doc:name="" doc:id="5b5bdc16-62f9-4987-9c3c-dd614765f100" />
+	</flow>
+	<flow name="rabbitmq-publisher-using-AMQP" doc:id="5cd4982c-77d8-4d3e-87f5-74e53f6b819d" >
+		<http:listener doc:name="Listener" doc:id="30b861ae-516c-46d5-8301-d37db32819be" config-ref="HTTP_Listener_config" path="/events/send-amqp"/>
+		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="beb27121-8246-441a-9ee6-9e34ac8a7b53" variableName="msgPayloadAMQP"/>
+		<db:select doc:name="GET event details from database" doc:id="e796c8a1-969a-4efa-8d68-641353321db7" config-ref="Database_Config">
+			<db:sql >SELECT * FROM EventCatalog where EventTypeID= :ID</db:sql>
+			<db:input-parameters ><![CDATA[#[output application/java
+ ---
+ {
+     'ID' : vars.msgPayloadAMQP.eventtypeid
+ }]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="GET first Item from an Array" doc:id="517973aa-4ed4-4b4f-a838-0dc43d58bdcc" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="eventcatalogAMQP" ><![CDATA[%dw 2.0
+output application/json
+---
+payload[0]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<amqp:publish doc:name="Publish" doc:id="bb8839e0-0e2d-483b-b80b-a5afe6d4ad6c" config-ref="AMQP_Config_API" exchangeName="#[vars.eventcatalogAMQP.ExchangeName]">
+			<amqp:routing-keys >
+				<amqp:routing-key value="#[vars.eventcatalogAMQP.RoutingKey]" />
+			</amqp:routing-keys>
+		</amqp:publish>
+	</flow>
+</mule>
