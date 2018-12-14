@@ -40,6 +40,12 @@ output application/json
 			<when expression="#[vars.eventDetails.exchangetype == 'header']">
 				<flow-ref doc:name="exchange-header-subflow" doc:id="bf4fc8d9-383c-4034-89d3-86739c9a7514" name="exchange-header-subflow"/>
 			</when>
+			<when expression="#[vars.eventDetails.exchangetype == 'match']">
+				<flow-ref doc:name="exchange-match-subflow" doc:id="3889e687-a5ea-4869-a70c-9bd4c2942b4a" name="exchange-match-subflow"/>
+			</when>
+			<when expression="#[vars.eventDetails.exchangetype == 'rabbitmq.trace']">
+				<flow-ref doc:name="exchange-rabbitmq.trace-subflow" doc:id="fbc2020c-6021-4299-a3a5-3dd4c7518296" name="exchange-rabbitmq.trace-subflow"/>
+			</when>
 			<otherwise>
 				<flow-ref doc:name="exchange-default-subflow" doc:id="6b54f960-cc34-4177-a988-dcc1ba396449" name="exchange-default-subflow"/>
 			</otherwise>
@@ -70,6 +76,12 @@ output application/json
 	</sub-flow>
 	<sub-flow name="exchange-header-subflow" doc:id="de946725-7e11-475e-98d5-71fb58539693" >
 		<logger level="INFO" doc:name="Logger" doc:id="62363f41-2a8b-4732-954f-4473d3875699" />
+	</sub-flow>
+	<sub-flow name="exchange-match-subflow" doc:id="e3480321-663d-43b7-8cd1-559049db9a76" >
+		<logger level="INFO" doc:name="Logger" doc:id="e761e409-e473-4abb-98d3-56322cd248a0" />
+	</sub-flow>
+	<sub-flow name="exchange-rabbitmq.trace-subflow" doc:id="fedd157e-9cfe-4ce9-be78-8da11ad12d8a" >
+		<logger level="INFO" doc:name="Logger" doc:id="6e3efe25-7cb2-4810-8774-18a7de9b1fec" />
 	</sub-flow>
 	<sub-flow name="exchange-default-subflow" doc:id="b1af708a-bbcc-4bd5-b02f-dae9a1520d05" >
 		<logger level="INFO" doc:name="Logger" doc:id="c2e7a5c1-305f-45c4-9f94-d4c9be73fa72" />
