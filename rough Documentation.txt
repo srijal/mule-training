@@ -1,0 +1,26 @@
+vhost: capella
+
+	Flow: publish-message-flow
+	Publisher
+		direct: routing key = 2019E queue = enrollment-2019, durability= durable, autodelete= yes
+
+		
+		
+		
+		
+
+Database data model
+EventTypeID
+EventName
+Vhost
+Exchange
+exchangeType:
+routingkey
+
+
+
+"vhost" : "capella",
+	"exchangename" : "amq.direct",
+	"exchangetype" : "direct",
+	"routingkey": "2019",
+	"message" : vars.msgPayload.message

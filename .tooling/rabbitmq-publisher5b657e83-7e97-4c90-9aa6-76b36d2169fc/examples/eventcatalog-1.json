@@ -1,8 +1,0 @@
-{
-  "eventtypeid": 1,
-  "eventname": "New Enrollment for spring 2019",
-  "exchangename": "exam",
-  "routingkey": "2019-spring",
-  "payload_encoding": "string",
-  "vhost": "capella.vhost"
-}

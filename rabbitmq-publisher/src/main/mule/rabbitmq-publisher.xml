@@ -74,11 +74,11 @@ payload[0]]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<amqp:publish doc:name="Publish" doc:id="bb8839e0-0e2d-483b-b80b-a5afe6d4ad6c" config-ref="AMQP_Config_API" exchangeName="#[vars.eventcatalogAMQP.ExchangeName]">
-			<amqp:routing-keys >
+			<amqp:routing-keys>
 				<amqp:routing-key value="#[vars.eventcatalogAMQP.RoutingKey]" />
 			</amqp:routing-keys>
-			<amqp:message >
-				<amqp:body ><![CDATA[#[%dw 2.0
+			<amqp:message>
+				<amqp:body><![CDATA[#[%dw 2.0
 output application/json
 ---
 {	

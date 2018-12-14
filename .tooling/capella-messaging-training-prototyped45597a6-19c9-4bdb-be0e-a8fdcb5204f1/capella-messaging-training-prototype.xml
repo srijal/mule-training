@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd">
+	<flow name="publish-message-flow" doc:id="a355ec31-23bb-44e8-b0d9-f35f9891153d" >
+		<http:listener doc:name="Listener" doc:id="ea8086a2-93ec-4078-b53f-1d04012d757e" config-ref="HTTP_Listener_config" path="/events/send"/>
+		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="6d85ba6a-8dad-4543-b261-ccf433c987b0" variableName="msgPayload"/>
+		<logger level="INFO" doc:name="Place holder. Get detail from external source" doc:id="dd83b4ba-90d1-4fc4-9ba9-a02aab868394" />
+		<ee:transform doc:name="transform database result" doc:id="8c02e1fd-067a-49d3-b2e4-8a2d473e9132" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="eventDetails" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"vhost" : "capella",
+	"exchangename" : "amq.direct",
+	"exchangetype" : "direct",
+	"routingkey": "2019",
+	"message" : vars.msgPayload.message
+	
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="0418d52b-ee64-41e0-b4ee-adc68debb9d5" >
+			<when expression="#[vars.eventDetails.exchangetype == 'direct']">
+				<flow-ref doc:name="Flow Reference" doc:id="4a036a8e-8dd1-479f-8f14-b055ed92af77" name="exchange-direct-subflow" />
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="4a46e359-25d4-4f38-87a9-53fe3e3020ee" />
+			</otherwise>
+		</choice>
+	</flow>
+	<sub-flow name="exchange-direct-subflow" doc:id="c3dac18b-acb8-4d58-a2fa-a844a5fd9976">
+		<ee:transform doc:name="Transform Message" doc:id="93ad7c3a-ab5d-4f70-88a8-e56cafa5d09b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<amqp:publish doc:name="Publish" doc:id="65a63fd2-05d3-470e-8988-b662b51aadeb" />
+		<logger level="INFO" doc:name="Logger" doc:id="3b8ec5ff-e631-48f2-abf3-3a7f02f8c6a3" />
+	</sub-flow>
+</mule>
