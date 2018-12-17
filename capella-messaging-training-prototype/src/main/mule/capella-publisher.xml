@@ -93,7 +93,7 @@ output application/json
 		<logger level="INFO" doc:name="Logger" doc:id="4f898041-6c01-4e25-8b8b-91cc41f6be85" />
 	</sub-flow>
 	<sub-flow name="exchange-header-subflow" doc:id="de946725-7e11-475e-98d5-71fb58539693" >
-		<amqp:publish doc:name="Publish" doc:id="80fd266b-ceb8-48d4-b19c-92c6383db154" config-ref="AMQP_Config_RabbitMQ" exchangeName="#[vars.eventDetails.exchangename]">
+		<amqp:publish doc:name="Publish - Exchange - Header" doc:id="80fd266b-ceb8-48d4-b19c-92c6383db154" config-ref="AMQP_Config_RabbitMQ" exchangeName="#[vars.eventDetails.exchangename]">
 			<amqp:message >
 				<amqp:body ><![CDATA[#[%dw 2.0
 output application/json
@@ -107,6 +107,16 @@ output application/json
 		<logger level="INFO" doc:name="Logger" doc:id="62363f41-2a8b-4732-954f-4473d3875699" />
 	</sub-flow>
 	<sub-flow name="exchange-default-subflow" doc:id="b1af708a-bbcc-4bd5-b02f-dae9a1520d05" >
+		<amqp:publish doc:name="Publish - Exchange - Default" doc:id="bf119af7-129d-44c7-a199-edd336bde775" config-ref="AMQP_Config_RabbitMQ" exchangeName="deadletter.exchange">
+			<amqp:message>
+				<amqp:body><![CDATA[#[%dw 2.0
+output application/json
+---
+{	
+	"payload": vars.eventDetails.message
+}]]]></amqp:body>
+			</amqp:message>
+		</amqp:publish>
 		<logger level="INFO" doc:name="Logger" doc:id="c2e7a5c1-305f-45c4-9f94-d4c9be73fa72" />
 	</sub-flow>
 </mule>

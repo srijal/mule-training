@@ -7,4 +7,5 @@ rabbitmq:
   port: "5672"
   vhost: "capella"
   user: "guest"
-  password: "guest"  
+  password: "guest"
+  DLX: "deadletter.fanout"  
