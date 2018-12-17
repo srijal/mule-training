@@ -24,3 +24,29 @@ routingkey
 	"exchangetype" : "direct",
 	"routingkey": "2019",
 	"message" : vars.msgPayload.message
+	
+	
+	
+	{
+  "eventtypeid": "1",
+  "message": "Pan Parag Dimag Kharab",
+  "eventtype" : "direct",
+  "exchangename" : "amq.direct",
+  "routingkey" :"routingkey"
+}
+
+
+{
+  "eventtypeid": "1",
+  "message": "ha aha ha ",
+  "eventtype" : "topic",
+  "exchangename" : "amq.topic",
+  "routingkey" :"student.hur",
+  "headers" :
+	{
+		"x-match": "all",
+		"type" : "daily",
+		"truck" : "no"
+	}
+  
+}

@@ -12130,3 +12130,9 @@ Binding(CTRL+Z,
 
 !ENTRY org.mule.tooling.maven 1 0 2018-12-17 10:21:57.130
 !MESSAGE  *** 3277 EmbeddedMavenRunner [configuration=MavenPreferences [isDontWarnAgainIfNoInstallationFoundChecked()=false, isGlobalMavenSupportEnabled()=true, getMavenInstallationHome()=C:\Program Files\Apache\apache-maven-3.6.0, getMavenOpts()=, getDefaultGroupId()=com.mycompany, getBaseCommandline()=mvn clean package -DskipMunitTests, isDisplayRuntimeVersionWarning()=true, isExternalInstallation()=false]]
+
+!ENTRY org.mule.tooling.maven 1 0 2018-12-17 11:59:50.334
+!MESSAGE  *** 3659 EmbeddedMavenRunner [configuration=MavenPreferences [isDontWarnAgainIfNoInstallationFoundChecked()=false, isGlobalMavenSupportEnabled()=true, getMavenInstallationHome()=C:\Program Files\Apache\apache-maven-3.6.0, getMavenOpts()=, getDefaultGroupId()=com.mycompany, getBaseCommandline()=mvn clean package -DskipMunitTests, isDisplayRuntimeVersionWarning()=true, isExternalInstallation()=false]]
+
+!ENTRY org.mule.tooling.maven 1 0 2018-12-17 12:24:43.972
+!MESSAGE  *** 3448 EmbeddedMavenRunner [configuration=MavenPreferences [isDontWarnAgainIfNoInstallationFoundChecked()=false, isGlobalMavenSupportEnabled()=true, getMavenInstallationHome()=C:\Program Files\Apache\apache-maven-3.6.0, getMavenOpts()=, getDefaultGroupId()=com.mycompany, getBaseCommandline()=mvn clean package -DskipMunitTests, isDisplayRuntimeVersionWarning()=true, isExternalInstallation()=false]]
