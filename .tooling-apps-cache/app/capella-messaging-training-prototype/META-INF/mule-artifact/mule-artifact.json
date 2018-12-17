@@ -2,8 +2,8 @@
   "configs": [
     "interface.xml",
     "global.xml",
-    "capella-subscriber.xml",
-    "capella-publisher.xml"
+    "capella-consume.xml",
+    "capella-publish.xml"
   ],
   "secureProperties": [],
   "redeploymentEnabled": true,
