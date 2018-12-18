@@ -9,7 +9,7 @@ value:
     exchangetype: direct
     queuename: new.student.enrollment
     routingkey: student.2016
-    headers: "{[key:value]}"
+    headers: Some JSON string here
   -
     eventtypeid: 45
     eventname: New Course 2019
@@ -17,4 +17,4 @@ value:
     exchangetype: fanout
     queuename: new.course.2019
     routingkey: student.2016
-    headers: "[{key:value}]"
+    headers: Some JSON string here

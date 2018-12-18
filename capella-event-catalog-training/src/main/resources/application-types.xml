@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="eventcatalog_raml" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: object
+properties:
+  eventtypeid: number
+  eventname: string
+  exchangename: string
+  exchangetype: string
+  queuename: string
+  routingkey?: string
+  headers?: string]]></types:shape>
+    </types:type>
+    <types:type name="eventcatalog_no_id_raml" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: object
+properties:
+  eventname: string
+  exchangename: string
+  exchangetype: string
+  queuename: string
+  routingkey?: string
+  headers?: string 
+  ]]></types:shape>
+    </types:type>
+    <types:type name="EventTypeID" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#4123bb02-9c42-4969-97cc-107e18062c7b">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="eventcatalog_raml[]"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ff9669a9-9004-45d6-baea-fa4db6498638">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="eventcatalog_no_id_raml"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
