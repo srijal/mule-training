@@ -1,0 +1,30 @@
+{
+  "configs": [
+    "implementation.xml",
+    "capella-event-catalog-training.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:capella-event-catalog-training:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.1.4",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "api/capella-event-catalog-training.raml",
+        "api/datatype/eventCatalog.raml",
+        "api/datatype/eventCatalogNoID.raml",
+        "api/example/eventCatalog.raml",
+        "api/example/eventCatalogNoID.raml",
+        "api/example/eventCatalogs.raml",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

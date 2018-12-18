@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd">
+	<flow name="publish-message-interface-flow" doc:id="567f4ac7-dee4-45cf-ac55-90d6b6800c38" >
+		<http:listener doc:name="Listener" doc:id="20c6983f-3c7e-4aa8-bb43-e29a0c0a7e5d" config-ref="HTTP_Listener_config" path="/events/send"/>
+		<flow-ref doc:name="publish-message-flow" doc:id="27a6528c-4c75-4af3-bd2f-9a4c038a688c" name="publish-message-flow"/>
+	</flow>
+	<flow name="consume-message-interface-flow" doc:id="6638e5b3-b984-4889-bbf3-70c97492b699" >
+		<amqp:listener doc:name="Listener" doc:id="f52454fc-ab7a-4a69-a6c7-c945f5f33507" config-ref="AMQP_Config_RabbitMQ" queueName="Computer Science"/>
+		<flow-ref doc:name="consume-message-flow" doc:id="8e3734ff-6380-41da-a76b-962df621f129" name="capella-consume-flow"/>
+	</flow>
+	<flow name="interfaceFlow" doc:id="fb8e1940-4b4f-4221-aa34-1f979e3b6480" >
+		<http:listener doc:name="Listener" doc:id="7d4b73d0-2f64-4c0d-b1c8-7a03e4c7808f" config-ref="HTTP_Listener_config" allowedMethods="POST" path="/events"/>
+		<flow-ref doc:name="POST event catalog flow" doc:id="6f70ff20-4c35-428f-9bc6-1f615046de35" name="POST-eventcatalog-register-flow"/>
+	</flow>
+</mule>

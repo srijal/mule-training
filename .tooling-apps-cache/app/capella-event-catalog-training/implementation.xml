@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="put_eventcatalog_flow" doc:id="37e9adb6-cc92-4739-9573-f8c5f79a7ed0" >
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="4fdcddd6-0b94-408c-917a-0cdd648c8022">
+            <ee:variables>
+                <ee:set-variable variableName="ID"><![CDATA[attributes.uriParams.ID]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Event Catalog Successfullky Added"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</flow>
+	<flow name="delete_eventcatalog_flow" doc:id="20f43dce-94a9-45e1-9235-1255b6537d48" >
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="ebcdea74-4630-4ed3-9f4a-3e31c4c257a3">
+            <ee:variables>
+                <ee:set-variable variableName="ID"><![CDATA[attributes.uriParams.ID]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  Message: "Event removed (Not really)"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</flow>
+	<flow name="patch_eventcatalog_flow" doc:id="c85c1235-77cb-44a9-9c57-7c90329db595" >
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="7824d2fc-18ca-45ff-aa9b-0ff126f718be">
+            <ee:variables>
+                <ee:set-variable variableName="ID"><![CDATA[attributes.uriParams.ID]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<logger level="INFO" message="patch:\eventcatalog\(ID):application\json:capella-event-catalog-training-config" />
+	</flow>
+	<flow name="post_eventcatalog_flow" doc:id="a261d806-83ba-46e3-b42c-47e69245fe1c" >
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="40e48f83-4448-45e6-a7ce-472264e4ff2b">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "Event catalog created"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</flow>
+	<flow name="get_eventcatalog_id_flow" doc:id="b338a7a7-9641-4811-8319-11d1553d58f6" >
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="c992b135-a084-4c05-b8b6-e87197ce37fe">
+            <ee:variables>
+                <ee:set-variable variableName="ID"><![CDATA[attributes.uriParams.ID]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="46e4d813-ae60-4401-820e-2ac9c856ae90">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  eventtypeid: 33,
+  eventname: "New Student Enrollment",
+  exchangename: "capella.direct",
+  exchangetype: "direct",
+  queuename: "new.student.enrollment",
+  routingkey: "student.2016",
+  headers: "{[key:value]}"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</flow>
+	<flow name="get_eventcatalog_flow" doc:id="77048cf2-dfa7-4c1a-8d09-6bd53010cd4e" >
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="93dd982e-035f-4e58-9eae-a593a2f4ff41">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    eventtypeid: 33,
+    eventname: "New Student Enrollment",
+    exchangename: "capella.direct",
+    exchangetype: "direct",
+    queuename: "new.student.enrollment",
+    routingkey: "student.2016",
+    headers: "{[key:value]}"
+  }, 
+  {
+    eventtypeid: 45,
+    eventname: "New Course 2019",
+    exchangename: "capella.fanout",
+    exchangetype: "fanout",
+    queuename: "new.course.2019",
+    routingkey: "student.2016",
+    headers: "[{key:value}]"
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</flow>
+</mule>

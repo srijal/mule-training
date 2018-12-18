@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;capella-event-catalog-training/src/main/mule/capella-event-catalog-training.xml&apos; to &apos;interface.xml&apos;" description="Rename resource &apos;capella-event-catalog-training.xml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/mule/capella-event-catalog-training.xml" name="interface.xml" stamp="1545146820867" updateReferences="true"/>
+</session>

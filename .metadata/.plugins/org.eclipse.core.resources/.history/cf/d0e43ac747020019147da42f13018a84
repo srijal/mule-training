@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="POST-eventcatalog-register-flow" doc:id="07098102-e5c1-478f-a12a-01b53123cf59" >
+		<set-variable value="" doc:name="Set Variable" doc:id="45c0284b-2337-4984-a171-2da41bda20bd" variableName="msgPayload"/>
+	</flow>
+</mule>
