@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="capella-event-consume-trainingFlow" doc:id="8da5f286-c51a-4117-80dc-a7921bd413f4" >
+		<amqp:listener doc:name="Listener" doc:id="0d39a8f9-69a1-422e-9c01-36b4c1086007" />
+	</flow>
+</mule>
