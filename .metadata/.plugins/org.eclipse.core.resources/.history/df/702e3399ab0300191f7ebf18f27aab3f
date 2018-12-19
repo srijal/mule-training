@@ -11,12 +11,10 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="6d85ba6a-8dad-4543-b261-ccf433c987b0" variableName="msgPayload"/>
 		<logger level="INFO" doc:name="Use ObjectStore to getting info from Cache" doc:id="9d08ff2e-c4ed-47a7-9674-b66378050287" />
 		<db:select doc:name="GET event detail from database" doc:id="8f0f733f-bdd9-4125-b265-f71e453e3af1" config-ref="MSSQL_Database_Config">
-			<db:sql >SELECT * FROM eventcatalog
-WHERE EventTypeID = :eventtypeid</db:sql>
+			<db:sql >SELECT * FROM EventCatalog WHERE eventtypeid = :eventtypeid</db:sql>
 			<db:input-parameters ><![CDATA[#[output application/java
  ---
  {   'eventtypeid' : vars.msgPayload.eventtypeid
- 	
  }]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="transform database result" doc:id="8c02e1fd-067a-49d3-b2e4-8a2d473e9132" >

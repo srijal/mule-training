@@ -5,8 +5,11 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd">
-	<flow name="publish-message-interface-flow" doc:id="567f4ac7-dee4-45cf-ac55-90d6b6800c38" >
-		<http:listener doc:name="Listener" doc:id="20c6983f-3c7e-4aa8-bb43-e29a0c0a7e5d" config-ref="HTTP_Listener_config" path="/events/send"/>
-		<flow-ref doc:name="publish-message-flow" doc:id="27a6528c-4c75-4af3-bd2f-9a4c038a688c" name="publish-message-flow"/>
-	</flow>
+	<configuration-properties doc:name="Configuration properties" doc:id="4197f01e-b535-4890-bbad-4f82ac24168c" file="config.yaml" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6d45ae7e-b387-4073-a9e2-9cdfac4831ed" >
+		<http:listener-connection host="${http.host}" port="${http.port}" />
+	</http:listener-config>
+	<amqp:config name="AMQP_Config_RabbitMQ" doc:name="AMQP Config" doc:id="1527c41e-f8c9-460c-9bbf-e15d3b7ff9d1" >
+		<amqp:connection host="${rabbitmq.host}" port="${rabbitmq.port}" virtualHost="${rabbitmq.vhost}" username="${rabbitmq.user}" password="${rabbitmq.password}" />
+	</amqp:config>
 </mule>

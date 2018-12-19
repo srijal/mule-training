@@ -10,15 +10,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	<flow name="publish-message-flow" doc:id="a355ec31-23bb-44e8-b0d9-f35f9891153d" >
 		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="6d85ba6a-8dad-4543-b261-ccf433c987b0" variableName="msgPayload"/>
 		<logger level="INFO" doc:name="Use ObjectStore to getting info from Cache" doc:id="9d08ff2e-c4ed-47a7-9674-b66378050287" />
-		<db:select doc:name="GET event detail from database" doc:id="8f0f733f-bdd9-4125-b265-f71e453e3af1" config-ref="MSSQL_Database_Config">
-			<db:sql >SELECT * FROM eventcatalog
-WHERE EventTypeID = :eventtypeid</db:sql>
-			<db:input-parameters ><![CDATA[#[output application/java
- ---
- {   'eventtypeid' : vars.msgPayload.eventtypeid
- 	
- }]]]></db:input-parameters>
-		</db:select>
+		<db:select doc:name="Select" doc:id="8f0f733f-bdd9-4125-b265-f71e453e3af1" />
 		<ee:transform doc:name="transform database result" doc:id="8c02e1fd-067a-49d3-b2e4-8a2d473e9132" >
 			<ee:message >
 			</ee:message>
@@ -27,16 +19,14 @@ WHERE EventTypeID = :eventtypeid</db:sql>
 output application/json
 ---
 {
-	"vhost" : "${rabbitmq.vhost}",
-	"exchangename" : payload.ExchangeName[0] default '' as String,
-	"exchangetype" : payload.ExchangeType[0] default '' as String,
-	"routingkey": payload.RoutingKey[0] default '' as String,
+	"vhost" : "capella",
+	"exchangename" : vars.msgPayload.exchangename default '' as String,
+	"exchangetype" : vars.msgPayload.eventtype default '' as String,
+	"routingkey": vars.msgPayload.routingkey default '' as String,
 	"message" : vars.msgPayload.message,
-	"headers" : payload.Headers[0] default '' as String,
-	"queuename" : payload.QueueName[0] default '' as String
+	"headers" : vars.msgPayload.headers default '' as String
 	
-}
-]]></ee:set-variable>
+}]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<choice doc:name="Choice" doc:id="0418d52b-ee64-41e0-b4ee-adc68debb9d5" >

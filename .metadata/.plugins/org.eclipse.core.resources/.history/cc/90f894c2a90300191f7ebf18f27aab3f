@@ -1,0 +1,11 @@
+http:
+  host: "localhost"
+  port: "8081"
+  
+rabbitmq:
+  host: "localhost"
+  port: "5672"
+  vhost: "capella"
+  user: "guest"
+  password: "guest"
+  DLX: "deadletter.fanout"  
