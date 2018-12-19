@@ -1,0 +1,40 @@
+#%RAML 1.0
+title: capella-event-subscribe-training
+
+types: 
+  eventCatalog: !include datatype/eventCatalog.raml
+  subscribe: !include datatype/subscribe.raml
+
+
+/subscribe:
+  post:
+    description: Register to event
+    body: 
+      application/json:
+        type: subscribe
+        example: !include example/subscribe.raml
+    responses: 
+      201:
+        body: 
+          application/json:
+            
+
+/eventcatalog:
+  get:
+    description: Get list of Event Catalog (capella-event-catalog can also be used as reusable assets)
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: eventCatalog[]
+            example: !include example/eventCatalogs.raml
+
+  /{ID}:
+    get: 
+      description: Get individual Event Catalog (capella-event-catalog can also be used as reusable assets)
+      responses: 
+        200:
+          body: 
+            application/json:
+              type: eventCatalog
+              example: !include example/eventCatalog.raml

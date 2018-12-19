@@ -1,0 +1,18 @@
+#%RAML 1.0 NamedExample
+value:
+  -
+    eventtypeid: 33
+    eventname: New Student Enrollment
+    exchangename: capella.direct
+    exchangetype: direct
+    queuename: new.student.enrollment
+    routingkey: student.2016
+    headers: Some JSON string here
+  -
+    eventtypeid: 45
+    eventname: New Course 2019
+    exchangename: capella.fanout
+    exchangetype: fanout
+    queuename: new.course.2019
+    routingkey: student.2016
+    headers: Some JSON string here

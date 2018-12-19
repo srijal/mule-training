@@ -10,12 +10,12 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>.link1</name>
+			<name>.link3</name>
 			<type>2</type>
 			<location>C:/AnypointStudio/plugins/org.mule.tooling.server.4.1.4.ee_7.3.1.201811211713/mule/lib/boot/exec</location>
 		</link>
 		<link>
-			<name>.link2</name>
+			<name>.link4</name>
 			<type>2</type>
 			<location>C:/AnypointStudio/plugins/org.mule.tooling.server.4.1.4.ee_7.3.1.201811211713/mule/lib/mule/repository</location>
 		</link>
