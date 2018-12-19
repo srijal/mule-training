@@ -2,12 +2,10 @@
 
 type: object
 properties: 
+  eventtypeid: number
   eventname: string
   exchangename: string
-  exchangetype?: string
-  queuename?: string
+  exchangetype: string
+  queuename: string
   routingkey?: string
-  headers?: string 
-  
-
-
+  headers?: string

@@ -20,38 +20,27 @@ payload]]></ee:set-variable>
 			</ee:variables>
         </ee:transform>
 		<http:request method="GET" doc:name="Check whether exchange already exists" doc:id="47b6edea-6f9e-4c40-8b0d-2e296f080d6a" config-ref="HTTP_Request_configuration_RabbitMQ_API" path="#['/exchanges/${rabbitmq.vhost}/']" target="exchangelist"/>
-		<choice doc:name="Choice (Create new exchange if it does not exists)" doc:id="48e9dca2-0a32-4bfb-93da-f99be55b70b5" >
+		<choice doc:name="Choice" doc:id="48e9dca2-0a32-4bfb-93da-f99be55b70b5" >
 			<when expression="#[vars.exchangelist.name contains vars.var_post_eventcatalog.exchangename]">
-				<db:select doc:name="GET existing Exchange details" doc:id="d3a7db66-e50d-46b2-acf4-ec6f830d6182" config-ref="MSSQL_Database_Config">
-					<db:sql >SELECT * FROM eventcatalog
-WHERE exchangename = :ExchangeName</db:sql>
-					<db:input-parameters ><![CDATA[#[output application/java
- ---
- {   'ExchangeName' : vars.var_post_eventcatalog.exchangename default ('')
- }]]]></db:input-parameters>
-				</db:select>
-				<ee:transform doc:name="Transform Message" doc:id="bef5e3d6-5ee7-497d-a3cb-7bd162697214" >
+				<ee:transform doc:name="Transform Message" doc:id="63539fb1-97ce-469e-af72-dc3d4bdec767" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"message" : "Exchange already exists",
-	"eventypeid" : payload.EventTypeID[0] 
+	"message" : "Exchange already exists"
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
 			</when>
 			<otherwise >
-				<http:request method="PUT" doc:name="Create new exchange for new Event Catalog" doc:id="18e1b9b0-3812-485f-9dd0-1a59852be028" config-ref="HTTP_Request_configuration_RabbitMQ_API" path="#['/exchanges/${rabbitmq.vhost}/' ++ vars.var_post_eventcatalog.exchangename]">
-					<http:body ><![CDATA[#[output application/json
----
-{	
+				<http:request method="PUT" doc:name="Request" doc:id="18e1b9b0-3812-485f-9dd0-1a59852be028" config-ref="HTTP_Request_configuration_RabbitMQ_API" path="#['/exchanges/${rabbitmq.vhost}/' ++ vars.var_post_eventcatalog.exchangename]" outputMimeType="application/json">
+					<http:body ><![CDATA[#[{
 	"type" : "fanout",
 	"durable" : "true"
 }]]]></http:body>
 				</http:request>
-				<db:insert doc:name="INSERT Record into DB" doc:id="6183a693-50e3-4043-9990-bdeaab0a81af" config-ref="MSSQL_Database_Config" autoGenerateKeys="true">
+				<db:insert doc:name="Insert" doc:id="6183a693-50e3-4043-9990-bdeaab0a81af" config-ref="MSSQL_Database_Config" autoGenerateKeys="true">
 			<db:sql>INSERT INTO [dbo].[EventCatalog]
            (EventName,QueueName,RoutingKey,Headers,ExchangeName,ExchangeType)
      VALUES ( :EventName,  :QueueName,  :RoutingKey,  :Headers, :ExchangeName, :ExchangeType)</db:sql>
@@ -59,11 +48,11 @@ output application/json
  ---
  {
      'EventName' : vars.var_post_eventcatalog.eventname,
-     'QueueName' : vars.var_post_eventcatalog.queuename default (''),
-     'RoutingKey': vars.var_post_eventcatalog.routingkey default (''),
-     'Headers': vars.var_post_eventcatalog.headers default (''),
-     'ExchangeName' : vars.var_post_eventcatalog.exchangename default (''),
-	 'ExchangeType': vars.var_post_eventcatalog.exchangetype default ('fanout')
+     'QueueName' : vars.var_post_eventcatalog.queuename,
+     'RoutingKey': vars.var_post_eventcatalog.routingkey,
+     'Headers': vars.var_post_eventcatalog.headers,
+     'ExchangeName' : vars.var_post_eventcatalog.exchangename,
+	 'ExchangeType': vars.var_post_eventcatalog.exchangetype
  }]]]></db:input-parameters>
 			<db:auto-generated-keys-column-indexes>
 				<db:auto-generated-keys-column-index value="1" />
@@ -72,15 +61,12 @@ output application/json
 				<db:auto-generated-keys-column-name value="EventTypeID" />
 			</db:auto-generated-keys-column-names>
 		</db:insert>
-				<logger level="INFO" doc:name="Add object store to cache the record: " doc:id="7b1f8684-52d5-4b55-b1d8-2e2011c63e81" />
-				<ee:transform doc:name="Transform Message" doc:id="5bc42cdf-6fa8-40ab-95b9-3bb35f293f3b">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
+				<ee:transform doc:name="Transform Message" doc:id="5bc42cdf-6fa8-40ab-95b9-3bb35f293f3b" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
 ---
 {
-	"message" : vars.var_post_eventcatalog.exchangename ++ ' : Exchange created',
-	"eventypeid" : payload.generatedKeys[0]
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
@@ -89,7 +75,7 @@ output application/json
 		<logger level="INFO" doc:name="Logger" doc:id="03de86e7-6c3d-4162-a795-f7e58f2afd74" message="#[vars.eventtypeid]"/>
 	</flow>
 	<flow name="get_eventcatalog_flow" doc:id="45a495e1-8bb9-4230-aa44-b5aff751f685" >
-		<db:select doc:name="GET list of existing Exchange from Database" doc:id="03308b89-51bc-4539-a42a-91030c304753" config-ref="MSSQL_Database_Config">
+		<db:select doc:name="Select" doc:id="03308b89-51bc-4539-a42a-91030c304753" config-ref="MSSQL_Database_Config">
 			<db:sql >SELECT * FROM EventCatalog</db:sql>
 		</db:select>
 		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="4123bb02-9c42-4969-97cc-107e18062c7b">

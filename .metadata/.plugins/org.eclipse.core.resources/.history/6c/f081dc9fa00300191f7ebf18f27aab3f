@@ -25,14 +25,21 @@ payload]]></ee:set-variable>
 				<ee:transform doc:name="Transform Message" doc:id="63539fb1-97ce-469e-af72-dc3d4bdec767" >
 					<ee:message >
 						<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
 {
+	"message" : "Exchange already exists"
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
 			</when>
 			<otherwise >
+				<http:request method="PUT" doc:name="Request" doc:id="18e1b9b0-3812-485f-9dd0-1a59852be028" config-ref="HTTP_Request_configuration_RabbitMQ_API" path="#['/exchanges/${rabbitmq.vhost}/' ++ vars.var_post_eventcatalog.exchangename]" outputMimeType="application/json">
+					<http:body ><![CDATA[#[{
+	"type" : "fanout",
+	"durable" : "true"
+}]]]></http:body>
+				</http:request>
 				<db:insert doc:name="Insert" doc:id="6183a693-50e3-4043-9990-bdeaab0a81af" config-ref="MSSQL_Database_Config" autoGenerateKeys="true">
 			<db:sql>INSERT INTO [dbo].[EventCatalog]
            (EventName,QueueName,RoutingKey,Headers,ExchangeName,ExchangeType)
@@ -41,11 +48,11 @@ output application/java
  ---
  {
      'EventName' : vars.var_post_eventcatalog.eventname,
-     'QueueName' : vars.var_post_eventcatalog.queuename,
-     'RoutingKey': vars.var_post_eventcatalog.routingkey,
-     'Headers': vars.var_post_eventcatalog.headers,
-     'ExchangeName' : vars.var_post_eventcatalog.exchangename,
-	 'ExchangeType': vars.var_post_eventcatalog.exchangetype
+     'QueueName' : vars.var_post_eventcatalog.queuename default (''),
+     'RoutingKey': vars.var_post_eventcatalog.routingkey default (''),
+     'Headers': vars.var_post_eventcatalog.headers default (''),
+     'ExchangeName' : vars.var_post_eventcatalog.exchangename default (''),
+	 'ExchangeType': vars.var_post_eventcatalog.exchangetype default ('fanout')
  }]]]></db:input-parameters>
 			<db:auto-generated-keys-column-indexes>
 				<db:auto-generated-keys-column-index value="1" />
@@ -65,16 +72,6 @@ output application/java
 				</ee:transform>
 			</otherwise>
 		</choice>
-		<ee:transform doc:name="Transform Message" doc:id="6d3f684f-7efb-4e4c-a033-3ec86c425280" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[output application/json
----
-{
-	"eventypeid" : payload.generatedKeys[0]
-}
-]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="03de86e7-6c3d-4162-a795-f7e58f2afd74" message="#[vars.eventtypeid]"/>
 	</flow>
 	<flow name="get_eventcatalog_flow" doc:id="45a495e1-8bb9-4230-aa44-b5aff751f685" >

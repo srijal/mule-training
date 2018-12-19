@@ -4,8 +4,8 @@ type: object
 properties: 
   eventname: string
   exchangename: string
-  exchangetype?: string
-  queuename?: string
+  exchangetype: string
+  queuename: string
   routingkey?: string
   headers?: string 
   
