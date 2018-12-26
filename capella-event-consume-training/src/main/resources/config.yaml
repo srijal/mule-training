@@ -19,4 +19,10 @@ mssql:
   user: "sa"
   password: "C0nc0rdUsa1"
   dbname: "MulesoftEnablement" 
+
+smtp:
+  host: "smtp.gmail.com"
+  port: "465"
+  user: "dev.concordusa@gmail.com"
+  password: "Hopkins55343"
   

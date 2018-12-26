@@ -4,7 +4,7 @@
 <booleanAttribute key="consoleEnabled" value="true"/>
 <stringAttribute key="launch_mule_server_version" value="org.mule.tooling.server.4.1.4.ee"/>
 <stringAttribute key="maven.command.line" value=""/>
-<stringAttribute key="mule-agent-port" value="51006"/>
+<stringAttribute key="mule-agent-port" value="55866"/>
 <listAttribute key="mule-project-names">
 <listEntry value="capella-event-send-training"/>
 </listAttribute>

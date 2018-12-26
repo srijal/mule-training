@@ -9,3 +9,8 @@
 1545163335674	Rename Java project 'capella-messaging-training-prototype'
 1545243037236	Rename Java project 'capella-messaging-publish'
 1545252122002	Rename Java project 'capella-send-event-training'
+1545326014013	Rename Java project 'capella-event-consume-create-file-with-payload-save-local'
+1545331847797	Delete resource 'capella-event-consume-payload-file-save-local'
+1545332008275	Rename Java project 'capella-event-consume-transcormcsv-ftp-attachment-email'
+1545332184416	Delete resource 'capella-event-consume-transform-csv-ftp-email'
+1545417664005	Delete resource 'capella-event-consume-transform-csv-ftp-email'

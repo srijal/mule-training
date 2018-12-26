@@ -50,3 +50,26 @@ routingkey
 	}
   
 }
+
+
+[
+  {
+    "customerid" : "123",
+    "first_name" : "Tom",
+    "last_name" : "Hanks",
+    "email" : "thanks@gmail.com"
+  },
+  {
+    "customerid" : "456",
+    "first_name" : "Jerry",
+    "last_name" : "Seinfeld",
+    "email" : "js@gmail.com"
+  },
+  {
+    "customerid" : "789",
+    "first_name" : "Tom",
+    "last_name" : "Brady",
+    "email" : "tbrady@gmail.com"
+  }
+  
+]
