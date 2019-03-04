@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="event_customer_example" format="json">
+      <types:shape format="weave" example="examples/event_customer_example.json"><![CDATA[%dw 2.0
+type event_customer_example = {|
+  eventtypeid: String, 
+  message: {|
+    customers: Array<{|
+      customerid: String, 
+      first_name: String, 
+      last_name: String, 
+      email: String
+    |}>
+  |}
+|} {"MetadataFormat": "json",
+"example": "{\"eventtypeid\":\"1\",\"message\":{\"customers\":[{\"customerid\":\"123\",\"first_name\":\"Tom\",\"last_name\":\"Hanks\",\"email\":\"thanks@gmail.com\"},{\"customerid\":\"456\",\"first_name\":\"Jerry\",\"last_name\":\"Seinfeld\",\"email\":\"js@gmail.com\"},{\"customerid\":\"789\",\"first_name\":\"Russell\",\"last_name\":\"Peters\",\"email\":\"rpeters@gmail.com\"}]}}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="customer_payload_sample" format="json">
+      <types:shape format="weave" example="examples/sample_cust_example.json"><![CDATA[%dw 2.0
+type customer_payload_sample = {|
+  payload: {|
+    customers: Array<{|
+      customerid: String, 
+      first_name: String, 
+      last_name: String, 
+      email: String
+    |}>
+  |}
+|} {"MetadataFormat": "json",
+"example": "{\"payload\":{\"customers\":[{\"customerid\":\"1234\",\"first_name\":\"Tom\",\"last_name\":\"Hanks\",\"email\":\"thanks@gmail.com\"},{\"customerid\":\"456\",\"first_name\":\"Jerry\",\"last_name\":\"Seinfeld\",\"email\":\"js@gmail.com\"},{\"customerid\":\"789\",\"first_name\":\"Russell\",\"last_name\":\"Peters\",\"email\":\"rpeters@gmail.com\"}]}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#c757c903-0a00-45fc-975f-14571d4a7f3a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="customer_payload_sample"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
